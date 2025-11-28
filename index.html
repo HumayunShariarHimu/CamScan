@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CamScan</title>
+
+<style>
+    body {
+        margin: 0;
+        overflow: hidden;
+        background: black;
+        font-family: monospace;
+    }
+
+    /* MATRIX ANIMATION */
+    canvas#matrixCanvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1;
+    }
+
+    /* FULLSCREEN IFRAME */
+    iframe {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        border: none;
+        z-index: 2;
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(3px);
+    }
+
+    /* HOVER REDIRECT BUTTON */
+    .redirect-btn {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        padding: 12px 25px;
+        color: #00ff9d;
+        background: rgba(0, 0, 0, 0.7);
+        border: 2px solid #00ff9d;
+        border-radius: 8px;
+        font-size: 15px;
+        font-family: monospace;
+        cursor: pointer;
+        z-index: 9999;
+        transition: 0.3s;
+        text-decoration: none;
+    }
+
+    .redirect-btn:hover {
+        background: #00ff9d;
+        color: black;
+        box-shadow: 0 0 15px #00ff9d;
+        transform: scale(1.1);
+    }
+</style>
+</head>
+
+<body>
+
+<!-- MATRIX BACKGROUND -->
+<canvas id="matrixCanvas"></canvas>
+
+<!-- FULLSCREEN IFRAME -->
+<iframe src="https://python-code-runner--hshimu.replit.app/"></iframe>
+
+<!-- REDIRECT BUTTON -->
+<a class="redirect-btn" 
+   href="https://python-code-runner--hshimu.replit.app/" 
+   target="_blank">
+   ⚡ CamScan Direct Access
+</a>
+
+<script>
+/* MATRIX RAIN EFFECT */
+const canvas = document.getElementById("matrixCanvas");
+const ctx = canvas.getContext("2d");
+
+canvas.height = window.innerHeight;
+canvas.width = window.innerWidth;
+
+const chars = "01ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const matrix = [];
+const fontSize = 14;
+const columns = canvas.width / fontSize;
+
+for (let i = 0; i < columns; i++) {
+    matrix[i] = 1;
+}
+
+function drawMatrix() {
+    ctx.fillStyle = "rgba(0, 0, 0, 0.07)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.fillStyle = "#00ff9d";
+    ctx.font = fontSize + "px monospace";
+
+    for (let i = 0; i < matrix.length; i++) {
+        const text = chars.charAt(Math.floor(Math.random() * chars.length));
+        ctx.fillText(text, i * fontSize, matrix[i] * fontSize);
+
+        if (matrix[i] * fontSize > canvas.height && Math.random() > 0.96) {
+            matrix[i] = 0;
+        }
+        matrix[i]++;
+    }
+}
+setInterval(drawMatrix, 50);
+</script>
+
+</body>
+</html>
